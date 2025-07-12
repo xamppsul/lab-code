@@ -1,0 +1,7 @@
+writeln senin
+writeln selasa
+writeln rabu
+writeln kamis
+writeln jumat
+writeln sabtu
+write minggu
