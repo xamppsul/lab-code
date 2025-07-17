@@ -1,7 +1,7 @@
-package main
+package part
 
 import "fmt"
 
-func main() {
+func part() {
 	fmt.Println("Hello laura i'm software engineer golang")
 }
