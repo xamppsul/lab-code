@@ -1,13 +1,13 @@
-package main
+package basic
 
 import (
 	"fmt"
 )
 
-func main() {
+func Array() {
 	var nilai [5]float64
 
-	fmt.Println("Masukkan 5 nilai:")
+	fmt.Println("Masukkan 5 nilai :")
 
 	// Input nilai dari user
 	for i := 0; i < len(nilai); i++ {
