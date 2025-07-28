@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"golang/basic"
+	"golang/intermediate"
 )
 
 func ValidateNumberAvailable(num int) string {
@@ -15,6 +16,9 @@ func ValidateNumberAvailable(num int) string {
 
 func main() {
 	var num int
+	//array dulu
+	basic.Array(intermediate.Rata_rata_nilai(), intermediate.Total_nilai())
+	//condition
 	fmt.Print("Masukkan angka: ")
 	fmt.Scan(&num) //input dari user
 
