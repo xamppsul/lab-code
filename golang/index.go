@@ -5,14 +5,6 @@ import (
 	"golang/basic"
 )
 
-func ValidateNumberAvailable(num int) string {
-	if basic.CheckNumber(num) > num {
-		return "tersedia"
-	} else {
-		return "tidak tersedia"
-	}
-}
-
 func main() {
 	var num int
 	//array dulu
@@ -21,7 +13,7 @@ func main() {
 	fmt.Print("Masukkan angka: ")
 	fmt.Scan(&num) //input dari user
 
-	result := ValidateNumberAvailable(num)
-	message := fmt.Sprintf("Angka %d, %s", basic.CheckNumber(num), result)
+	result := basic.ValidateNumberAvailable(num)
+	message := fmt.Sprintf("Angka %d, %s", basic.ExecNumber(num), result)
 	fmt.Println(message)
 }
