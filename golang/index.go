@@ -2,7 +2,6 @@ package main
 
 import (
 	"golang/config"
-	"log"
 	"os"
 	"runtime"
 
@@ -11,24 +10,10 @@ import (
 )
 
 func main() {
-	// var num int
-	// //array dulu
-	// basic.Array()
-	// //condition
-	// fmt.Print("Masukkan angka: ")
-	// fmt.Scan(&num) //input dari user
-
-	// result := basic.ValidateNumberAvailable(num)
-	// message := fmt.Sprintf("Angka %d, %s", basic.ExecNumber(num), result)
-	// fmt.Println(message)
-
-	//config env load and hot reload
-	config.EnvConfig()
+	//load .env
+	config.EnvConfig("../golang/.env")
+	//hot reload
 	fastergoding.Run()
-	//hot reload jika env type tidak available
-	if os.Getenv("APP_ENVIRONTMENT_TYPE") != "stagging" && os.Getenv("APP_ENVIRONTMENT_TYPE") != "production" {
-		log.Fatal("Env Type wrong")
-	}
 
 	app := fiber.New()
 	app.Get("/", func(res *fiber.Ctx) error {

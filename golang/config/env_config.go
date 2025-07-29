@@ -8,15 +8,16 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func EnvConfig() {
+func EnvConfig(path string) {
 	dir, err := os.Getwd()
 	if err != nil {
 		panic(err.Error())
 	}
 
-	env_path := filepath.Join(dir, "../golang/.env")
+	env_path := filepath.Join(dir, path)
 	err = godotenv.Load(env_path)
 	if err != nil {
 		log.Fatal("Err: env doesn't exist")
+		os.Exit(1)
 	}
 }
