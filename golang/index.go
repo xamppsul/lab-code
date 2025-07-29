@@ -16,6 +16,7 @@ func main() {
 	config.EnvConfig("../golang/.env")
 	//hot reload
 	fastergoding.Run()
+	//validate timezone location seting
 	if err := config.SetTimezone(os.Getenv("GO_TIMEZONE")); err != nil {
 		log.Fatal(err)
 	}
@@ -27,7 +28,7 @@ func main() {
 	app.Get("/", func(res *fiber.Ctx) error {
 		return res.SendString(runtime.Version() + " With fiber framework: " + os.Getenv("GO_DESCRIPTION"))
 	})
+	//load port for run server
 	app.Listen(":" + os.Getenv("GO_PORT"))
-	//validate timezone location seting
 
 }
