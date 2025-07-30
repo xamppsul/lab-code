@@ -15,9 +15,9 @@ services:
     networks:
       - app
 
-  go_app_db:
+  go_app_mysql:
     image: mysql:8.0
-    container_name: go_app_db
+    container_name: go_app_mysql_db
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: go_app_db
@@ -25,9 +25,8 @@ services:
       MYSQL_PASSWORD: MLtalBcE867g
       MYSQL_USER: go_app_user
     volumes:
-      - ./compose/mysql:/docker-entrypoint-initdb.d
-      - ./compose/mysql/logs:/var/log/mysql
-      - ./compose/mysql/data:/var/lib/mysql
+      - mysql_log:/var/db/mysql/log
+      - mysql_data:/var/db/mysql/lib
     networks:
       - app
 
@@ -37,10 +36,10 @@ services:
     ports:
       - 7075:80
     links:
-      - go_app_db
+      - go_app_mysql
     restart: unless-stopped
     environment:
-      PMA_HOST: go_app_db
+      PMA_HOST: go_app_mysql
       PMA_USER: go_app_user
       PMA_PASSWORD: MLtalBcE867g
       PMA_PORT: 3306
@@ -48,6 +47,31 @@ services:
     networks:
       - app
 
+  go_app_redis:
+    image: redis:7-alpine
+    container_name: go_app_redis_db
+    ports:
+      - "6380:6380"
+    volumes:
+      - redis_data:/var/db/redis
+    restart: unless-stopped
+
+  go_app_redis_commander:
+    image: rediscommander/redis-commander:latest
+    container_name: go_app_redis_commander
+    ports:
+      - "7074:7074"
+    environment:
+      - REDIS_HOSTS=local:redis:6380
+    depends_on:
+      - go_app_redis
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  mysql_log:
+  mysql_data:
+  
 networks:
   app:
     driver: bridge
