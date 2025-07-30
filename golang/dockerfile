@@ -1,13 +1,16 @@
 # Runtime stage
-FROM alpine:latest
+FROM golang:1.24-alpine
 
-WORKDIR /app
+COPY go.* ./
 
-# Copy binary from builder
-COPY --from=builder /app/app .
-# Copy .env file
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
 COPY .env .
+
+RUN go build -o go_app index.go
 
 EXPOSE 8089
 
-CMD ["./app"]
+CMD ["./go_app"]

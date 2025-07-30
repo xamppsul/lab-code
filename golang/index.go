@@ -13,7 +13,7 @@ import (
 
 func main() {
 	//load .env
-	config.EnvConfig("../golang/.env")
+	config.EnvConfig(".env")
 	//hot reload
 	fastergoding.Run()
 	//validate timezone location seting

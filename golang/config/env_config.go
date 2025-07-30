@@ -17,7 +17,7 @@ func EnvConfig(path string) {
 	env_path := filepath.Join(dir, path)
 	err = godotenv.Load(env_path)
 	if err != nil {
-		log.Fatal("Err: env doesn't exist")
+		log.Fatal("Err: wrong path .env")
 		os.Exit(1)
 	}
 }
