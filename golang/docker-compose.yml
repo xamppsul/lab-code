@@ -1,0 +1,77 @@
+version: "1"
+
+services:
+
+  go_app:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    container_name: go_app
+    ports:
+      - "8089:8089"
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - app
+
+  go_app_mysql:
+    image: mysql:8.0
+    container_name: go_app_mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: go_app_db
+      MYSQL_ROOT_PASSWORD: MLtalBcE867g
+      MYSQL_PASSWORD: MLtalBcE867g
+      MYSQL_USER: go_app_user
+    volumes:
+      - mysql_log:/var/db/mysql/log
+      - mysql_data:/var/db/mysql/lib
+    networks:
+      - app
+
+  go_app_phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: go_app_phpmyadmin
+    ports:
+      - 7075:80
+    links:
+      - go_app_mysql
+    restart: unless-stopped
+    environment:
+      PMA_HOST: go_app_mysql
+      PMA_USER: go_app_user
+      PMA_PASSWORD: MLtalBcE867g
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    networks:
+      - app
+
+  go_app_redis:
+    image: redis:7-alpine
+    container_name: go_app_redis_db
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/var/db/redis
+    restart: unless-stopped
+
+  go_app_redis_commander:
+    image: rediscommander/redis-commander:latest
+    container_name: go_app_redis_commander
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=localhost:redis:6379
+    depends_on:
+      - go_app_redis
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  mysql_log:
+  mysql_data:
+  
+networks:
+  app:
+    driver: bridge
